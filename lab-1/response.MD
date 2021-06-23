@@ -12,5 +12,16 @@ The Node.js event loop has the following sequence of steps.
 But in the middle of the loop lies nextTickQueue, not as part of the eventloop itself. 
 From the workflow of event loop, now we can say setImmediate() is not exactly immediate, but the queue containing the callbacks of this, will be executed once in every iteration (when event loop is in Check phase).
 
+<p>As per node.js documentation, “nextTickQueue will be processed after the current operation completes, regardless of the current phase of the event loop.”
+It means, this queue will be executed whenever the boundary between JavaScript and C/C++ is crossed. So it's not like it will be called after the task in the current phase only. Neither it means after the execution of the current callback. It is sometime before the next phase is hit. </p>
 
 3. Name 10 global modules/methods available in Node environment.
+ ** setImmediate()/clearImmediate() 
+ ** setInterval()/clearInterval() 
+ ** setTimeout()/clearTimeout() 
+ ** URL
+ **assert 
+ ** child_process
+ ** events 
+ ** http
+ ** stream
