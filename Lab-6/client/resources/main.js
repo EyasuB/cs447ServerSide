@@ -1,13 +1,13 @@
-window.onload = function () {
+window.onload = function() {
     getProducts();
 
-    document.getElementById('nav-home').onclick = function (event) {
+    document.getElementById('nav-home').onclick = function(event) {
         event.preventDefault();
         getProducts();
     }
 
     // add/update product
-    document.getElementById('product-btn').onclick = function (event) {
+    document.getElementById('product-btn').onclick = function(event) {
         event.preventDefault();
         if (!document.getElementById('product-btn').dataset.id) {
             addProduct();
@@ -18,11 +18,11 @@ window.onload = function () {
 }
 
 async function getProducts() {
-    let products = await fetch('http://localhost:3000/books/').then(response => response.json());
-    products.forEach(prod => renderBook(prod));
+    let products = await fetch('http://localhost:3000/products/').then(response => response.json());
+    products.forEach(prod => renderProduct(prod));
 }
 
-function renderBook(prod) {
+function renderProduct(prod) {
     const div = document.createElement('div');
     div.classList = 'col-lg-4';
     div.id = prod.id;
@@ -35,41 +35,36 @@ function renderBook(prod) {
     const h2 = document.createElement('h2');
     h2.textContent = prod.title;
 
-    const isbn = document.createElement('p');
-    isbn.textContent = prod.isbn;
+    const price = document.createElement('p');
+    price.textContent = prod.price;
 
-    const publishedDate = document.createElement('p');
-    publishedDate.textContent = prod.publishedDate;
-
-    const author = document.createElement('p');
-    author.textContent = prod.author;
+    const description = document.createElement('p');
+    description.textContent = prod.description;
 
     div.appendChild(h2);
-    div.appendChild(isbn);
-    div.appendChild(publishedDate);
-    div.appendChild(author);
+    div.appendChild(price);
+    div.appendChild(description);
 
     const actions = document.createElement('p');
     const updateBtn = document.createElement('a');
     updateBtn.classList = 'btn btn-secondary';
     updateBtn.textContent = 'UPDATE';
-    updateBtn.addEventListener('click', function (event) {
+    updateBtn.addEventListener('click', function(event) {
         event.preventDefault();
         document.getElementById('product-heading').textContent = 'Edit Product';
         document.getElementById('title').value = prod.title;
-        document.getElementById('isbn').value = prod.isbn;
-        document.getElementById('publishedDate').value = prod.publishedDate;
-        document.getElementById('author').value = prod.author;
+        document.getElementById('price').value = prod.price;
+        document.getElementById('description').value = prod.description;
         document.getElementById('product-btn').dataset.id = prod.id;
     });
 
     const deleteBtn = document.createElement('a');
     deleteBtn.classList = 'btn btn-secondary';
     deleteBtn.textContent = 'DELETE';
-    deleteBtn.addEventListener('click', function (event) {
+    deleteBtn.addEventListener('click', function(event) {
         event.preventDefault();
 
-        fetch('http://localhost:3000/books/' + prod.id, {
+        fetch('http://localhost:3000/products/' + prod.id, {
             method: 'DELETE',
         }).then(response => {
             alert('Delete Successfully!');
@@ -87,49 +82,45 @@ function renderBook(prod) {
 
 
 async function addProduct() {
-    let result = await fetch('http://localhost:3000/books/', {
+    let result = await fetch('http://localhost:3000/products/', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
         },
         body: JSON.stringify({
             title: document.getElementById('title').value,
-            isbn: document.getElementById('isbn').value,
-            publishedDate: document.getElementById('publishedDate').value,
-            author: document.getElementById('author').value
+            price: document.getElementById('price').value,
+            description: document.getElementById('description').value
         })
     }).then(res => res.json());
     document.getElementById('product-form').reset();
-    renderBook(result);
+    renderProduct(result);
 }
 
 function editProduct() {
     const prodId = document.getElementById('product-btn').dataset.id;
     const title = document.getElementById('title').value;
-    const isbn = document.getElementById('isbn').value;
-    const publishedDate = document.getElementById('publishedDate').value;
-    const author = document.getElementById('author').value;
-    fetch('http://localhost:3000/books/' + prodId, {
-        method: 'PUT',
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-            title: title,
-            isbn: isbn,
-            publishedDate: publishedDate,
-            author: author
-        })
-    }).then(response => response.json())
+    const price = document.getElementById('price').value;
+    const description = document.getElementById('description').value;
+    fetch('http://localhost:3000/products/' + prodId, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                price: price,
+                description: description
+            })
+        }).then(response => response.json())
         .then(jsonObj => {
             const productDiv = document.getElementById(prodId);
             productDiv.querySelector('h2').textContent = title;
             const paragraphArr = productDiv.querySelectorAll('p');
-            paragraphArr[0].textContent = isbn;
-            paragraphArr[1].textContent = publishedDate;
-            paragraphArr[2].textContent = author;
+            paragraphArr[0].textContent = price;
+            paragraphArr[1].textContent = description;
 
-            document.getElementById('product-heading').textContent = 'Add a new Book';
+            document.getElementById('product-heading').textContent = 'Add a new Product';
             document.getElementById('product-btn').dataset.id = '';
             document.getElementById('product-form').reset();
         });

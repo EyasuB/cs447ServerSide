@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Rujuan Xing">
-    <title>Tina's Book Store</title>
+    <title>Tina's Shopping</title>
 
     <link href="./resources/bootstrap.min.css" rel="stylesheet">
     <link href="./resources/carousel.css" rel="stylesheet">
@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Tina's Book Store</a>
+                <a class="navbar-brand" href="#">Tina's Shopping</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -53,7 +53,7 @@
 
             <div class="row featurette">
                 <div class="col-md-12">
-                    <h2 class="featurette-heading" id="product-heading">Add a new Book</h2>
+                    <h2 class="featurette-heading" id="product-heading">Add a new Product</h2>
                     <p class="lead">
                         <form id="product-form">
                             <div class="mb-3">
@@ -62,16 +62,12 @@
 
                             </div>
                             <div class="mb-3">
-                                <label for="isbn" class="form-label">ISBN</label>
-                                <input type="text" class="form-control" id="isbn">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="text" class="form-control" id="price">
                             </div>
                             <div class="mb-3">
-                                <label for="publishedDate" class="form-label">Published Date</label>
-                                <input type="text" class="form-control" id="publishedDate">
-                            </div>
-                            <div class="mb-3">
-                                <label for="author" class="form-label">Author</label>
-                                <input type="text" class="form-control" id="author">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3"></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary" id="product-btn">Submit</button>
